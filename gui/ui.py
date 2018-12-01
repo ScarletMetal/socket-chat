@@ -6,7 +6,7 @@ class GUI:
 
     def __init__(self, target=lambda s: print(s)):
         self.top = tkinter.Tk()
-        self.list = tkinter.Listbox(self.top)
+        self.list = tkinter.Listbox(self.top, width=100)
         self.list_index = 1
 
         self.message_label = tkinter.Label(self.top, text = "Enter Your Message")
@@ -45,6 +45,14 @@ class GUI:
         self.list.pack()
         self.list_index += 1
 
+    def request_prompt(self):
+        msg = Message(type="COMMAND", args=["prompt"])
+        self.target(message.to_string(msg))
+
+
     def start(self):
         self.show_widgets()
         self.top.mainloop()
+
+    def quit(self):
+        self.top.quit()
