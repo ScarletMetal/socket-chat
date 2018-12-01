@@ -52,7 +52,7 @@ class ClientThread(threading.Thread):
 
     def ls_rooms(self, *args):
         self.client.message(message.to_string(
-            message.Message(type="MESSAGE", content=self.chat.list_rooms())))
+            message.Message(type="MESSAGE", content="The rooms that are available are :: " + self.chat.list_rooms())))
 
     def handle_message(self, msg):
 
@@ -61,15 +61,20 @@ class ClientThread(threading.Thread):
             if command_name in self.command_index.keys():
                 self.command_index[command_name](*msg.args[1:])
         if msg.type == 'MESSAGE':
-            self.client.forward(message.to_string
-                                (message.Message(type="MESSAGE",
-                                                 content="{}:{}".format(self.client.name, msg.content))))
+            new_msg = message.to_string(message.Message(type="MESSAGE",
+                                                        content="{}:{}".format(self.client.name, msg.content)))
+            if msg.args[0] == 'echo':
+                self.client.room.message(new_msg)
+                print("bla")
+            else:
+                self.client.forward(new_msg)
 
     def run(self):
         try:
             reader = BufferReader(self.client.sock.recv)
             while True:
                 line = reader.read_line()
+                print(line)
                 msg = message.to_message(line)
                 self.handle_message(msg)
         finally:

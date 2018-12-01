@@ -5,8 +5,10 @@ class Chat:
         self.rooms = []
 
     def add_room(self, room):
-        if not room in self.rooms:
-            self.rooms.append(room)
+        for r in self.rooms:
+            if r.name == room.name:
+                return
+        self.rooms.append(room)
 
     def get_room(self, name):
         for room in self.rooms:

@@ -7,7 +7,7 @@ from server.client_thread import ClientThread
 
 def main():
     chat = Chat()
-    address = ('0.0.0.0', 8028)
+    address = ('0.0.0.0', 8048)
     server_socket = socket.socket()
     server_socket.bind(address)
     server_socket.listen(100)
