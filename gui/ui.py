@@ -14,13 +14,21 @@ class GUI:
         self.message_button = tkinter.Button(self.top, text = "send", command=self.send_message)
 
         self.target = target
+        # self.top.bind('<Return>', self.send_on_enter)
 
+
+    def send_on_enter(self, *args):
+        try:
+            self.send_message()
+        except Exception as e:
+            print(e)
+            pass
 
     def send_message(self):
         text = self.message_entry.get()
 
         msg_type = "MESSAGE"
-        args = []
+        args = ["echo"]
         content = text
 
         if text[0] == "!":
@@ -30,6 +38,7 @@ class GUI:
 
         msg = Message(msg_type, args=args, content=content)
         self.target(message.to_string(msg))
+        self.message_entry.delete(0, len(text))
 
 
 

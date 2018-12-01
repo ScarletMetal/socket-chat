@@ -17,8 +17,21 @@ def main():
     listen_thread = network.ListenThread(BufferReader(sock.recv), ui)
     listen_thread.start()
     ui.request_prompt()
-    ui.start()
 
+    try:
+        ui.start()
+
+    except KeyboardInterrupt:
+        print("keyboard")
+        sock.close()
+        ui.quit()
+
+    finally:
+        print("closed")
+
+def test_ui():
+    ui = GUI()
+    ui.start()
 
 if __name__ == '__main__':
     main()
